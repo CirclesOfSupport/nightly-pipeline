@@ -3,21 +3,21 @@ steps:
     args:
       - build
       - -t
-      - us-east1-docker.pkg.dev/$PROJECT_ID/webhook-repo/nightly-orchestrator:$COMMIT_SHA
+      - us-east1-docker.pkg.dev/$PROJECT_ID/webhook-repo/nightly-pipeline:$COMMIT_SHA
       - .
 
   - name: gcr.io/cloud-builders/docker
     args:
       - push
-      - us-east1-docker.pkg.dev/$PROJECT_ID/webhook-repo/nightly-orchestrator:$COMMIT_SHA
+      - us-east1-docker.pkg.dev/$PROJECT_ID/webhook-repo/nightly-pipeline:$COMMIT_SHA
 
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     entrypoint: gcloud
     args:
       - run
       - deploy
-      - nightly-orchestrator
-      - --image=us-east1-docker.pkg.dev/$PROJECT_ID/webhook-repo/nightly-orchestrator:$COMMIT_SHA
+      - nightly-pipeline
+      - --image=us-east1-docker.pkg.dev/$PROJECT_ID/webhook-repo/nightly-pipeline:$COMMIT_SHA
       - --region=us-east1
       - --platform=managed
       - --no-allow-unauthenticated
@@ -29,4 +29,4 @@ options:
   logging: CLOUD_LOGGING_ONLY
 
 images:
-  - us-east1-docker.pkg.dev/$PROJECT_ID/webhook-repo/nightly-orchestrator:$COMMIT_SHA
+  - us-east1-docker.pkg.dev/$PROJECT_ID/webhook-repo/nightly-pipeline:$COMMIT_SHA
